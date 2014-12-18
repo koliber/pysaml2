@@ -41,7 +41,7 @@ NAMESPACE = "http://schemas.xmlsoap.org/soap/envelope/"
 FORM_SPEC = """<form method="post" action="%s">
    <input type="hidden" name="%s" value="%s" />
    <input type="hidden" name="RelayState" value="%s" />
-   <input type="submit" value="Submit" />
+   <input type="submit" value="Continue Log In" />
 </form>"""
 
 def http_post_message(message, location, relay_state="", typ="SAMLRequest"):
@@ -64,7 +64,7 @@ def http_post_message(message, location, relay_state="", typ="SAMLRequest"):
                                 
     response.append("""<script type="text/javascript">""")
     response.append("     window.onload = function ()")
-    response.append(" { document.forms[0].submit(); ")
+    response.append(" { document.forms[0].submit(); }")
     response.append("""</script>""")
     response.append("</body>")
     
@@ -87,7 +87,7 @@ def http_redirect_message(message, location, relay_state="",
     
     if not isinstance(message, basestring):
         message = "%s" % (message,)
-        
+
     args = {typ: deflate_and_base64_encode(message)}
     
     if relay_state:

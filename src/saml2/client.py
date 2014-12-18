@@ -181,7 +181,7 @@ class Saml2Client(object):
         # get the idp location from the configuration alternative the
         # metadata. If there is more than one IdP in the configuration
         # raise exception
-        eids = self.config.idps()
+        eids = self.config.idps(binding=binding)
         if len(eids) > 1:
             raise IdpUnspecified("Too many IdPs to choose from: %s" % eids)
         try:
@@ -390,11 +390,12 @@ class Saml2Client(object):
         :return: AuthnRequest response
         """
 
-        location = self._sso_location(entityid)
+        location = self._sso_location(entityid, binding=binding)
         session_id = sid()
 
-        _req_str = "%s" % self.authn(location, session_id, vorg, scoping, log,
-                                       sign)
+        _req_str = "%s" % self.authn(
+            location, session_id, vorg, scoping, log, sign, binding=binding
+        )
 
         if log:
             log.info("AuthNReq: %s" % _req_str)
