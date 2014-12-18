@@ -756,11 +756,12 @@ class MetaData(object):
                     return name.text.strip()
         return ""
     
-    def _location(self, idpsso):
+    def _location(self, idpsso, binding=BINDING_HTTP_REDIRECT):
         loc = []
         for idp in idpsso:
             for sso in idp.single_sign_on_service:
-                loc.append(sso.location)
+                if sso.binding == binding:
+                    loc.append(sso.location)
         
         return loc
     
@@ -768,7 +769,7 @@ class MetaData(object):
     # def _valid(self, entity_id):
     #     return True
     
-    def idps(self, langs=None):
+    def idps(self, langs=None, binding=BINDING_HTTP_REDIRECT):
         idps = {}
 
         if langs is None:
@@ -782,7 +783,7 @@ class MetaData(object):
                     name = self._orgname(edict["organization"], langs)
 
                 if not name:
-                    name = self._location(edict["idp_sso"])[0]
+                    name = self._location(edict["idp_sso"], binding=binding)[0]
                 idps[entity_id] = (name, edict["idp_sso"])
         return idps
 

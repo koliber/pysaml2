@@ -423,7 +423,7 @@ class SPConfig(Config):
 
         return res
 
-    def idps(self, langpref=None):
+    def idps(self, langpref=None, binding=BINDING_HTTP_REDIRECT):
         """ Returns a dictionary of usefull IdPs, the keys being the
         entity ID of the service and the names of the services as values
 
@@ -436,9 +436,9 @@ class SPConfig(Config):
 
         if self.idp:
             return dict([(e, nd[0]) for (e,
-                nd) in self.metadata.idps(langpref).items() if e in self.idp])
+                nd) in self.metadata.idps(langpref, binding=binding).items() if e in self.idp])
         else:
-            return self.metadata.idps()
+            return self.metadata.idps(binding=binding)
 
     def vo_conf(self, vo_name):
         try:
