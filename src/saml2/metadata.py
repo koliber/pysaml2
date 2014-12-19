@@ -762,6 +762,13 @@ class MetaData(object):
             for sso in idp.single_sign_on_service:
                 if sso.binding == binding:
                     loc.append(sso.location)
+
+        if not loc:
+            # it looks like we did not find any lcoations matching the binding.
+            # Let's fall back on the old behavior where we did not try to match the binding.
+            for idp in idpsso:
+                for sso in idp.single_sign_on_service:
+                    loc.append(sso.location)
         
         return loc
     
