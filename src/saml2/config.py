@@ -423,7 +423,7 @@ class SPConfig(Config):
 
         return res
 
-    def idps(self, langpref=None, binding=BINDING_HTTP_REDIRECT):
+    def idps(self, langpref=None, binding=None):
         """ Returns a dictionary of usefull IdPs, the keys being the
         entity ID of the service and the names of the services as values
 
