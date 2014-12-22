@@ -756,15 +756,18 @@ class MetaData(object):
                     return name.text.strip()
         return ""
     
-    def _location(self, idpsso, binding=BINDING_HTTP_REDIRECT):
+    def _location(self, idpsso, binding=None):
         loc = []
         for idp in idpsso:
             for sso in idp.single_sign_on_service:
-                if sso.binding == binding:
+                if binding is not None:
+                    if sso.binding == binding:
+                        loc.append(sso.location)
+                else:
                     loc.append(sso.location)
 
         if not loc:
-            # it looks like we did not find any lcoations matching the binding.
+            # it looks like we did not find any locations matching the binding.
             # Let's fall back on the old behavior where we did not try to match the binding.
             for idp in idpsso:
                 for sso in idp.single_sign_on_service:
@@ -776,7 +779,7 @@ class MetaData(object):
     # def _valid(self, entity_id):
     #     return True
     
-    def idps(self, langs=None, binding=BINDING_HTTP_REDIRECT):
+    def idps(self, langs=None, binding=None):
         idps = {}
 
         if langs is None:

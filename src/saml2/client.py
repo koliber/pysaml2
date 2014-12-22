@@ -372,7 +372,7 @@ class Saml2Client(object):
 
         return self.authn_request(session_id, location, service_url,
                                   spentityid, my_name, vorg, scoping, log,
-                                  sign, binding=binding)
+                                  sign)
 
     def authenticate(self, entityid=None, relay_state="",
                      binding=saml2.BINDING_HTTP_REDIRECT,
